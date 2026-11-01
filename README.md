@@ -1,34 +1,55 @@
 from colorama import init, Fore, Style
 
-# Inicializa o colorama e garante o reset do estilo
+# Inicializa o colorama e garante o reset do estilo do terminal
 init(autoreset=True)
 
-# Lista contendo os 5 níveis de água do reservatório
+# 1. Utilizar uma lista para armazenar os níveis ou as mensagens do reservatório
 niveis_reservatorio = [
-    ("Nível 1", "Muito baixo (crítico)"),
-    ("Nível 2", "Baixo"),
-    ("Nível 3", "Médio"),
-    ("Nível 4", "Alto"),
-    ("Nível 5", "Muito alto (alerta)")
+    ("Nível 1", "Muito baixo (crítico)", "Vermelho"),
+    ("Nível 2", "Baixo", "Amarelo"),
+    ("Nível 3", "Médio", "Verde"),
+    ("Nível 4", "Alto", "Ciano"),
+    ("Nível 5", "Muito alto (alerta)", "Azul")
 ]
 
-# Função responsável por definir a cor da mensagem conforme o nível informado
-def verificar_nivel_agua(nivel_nome, situacao):
-    if nivel_nome == "Nível 1":
-        print(Fore.RED + f"{nivel_nome}: {situacao} - Risco Crítico!" + Style.RESET_ALL)
-    elif nivel_nome == "Nível 2":
-        print(Fore.YELLOW + f"{nivel_nome}: {situacao} - Atenção." + Style.RESET_ALL)
-    elif nivel_nome == "Nível 3":
-        print(Fore.GREEN + f"{nivel_nome}: {situacao} - Nível Estável." + Style.RESET_ALL)
-    elif nivel_nome == "Nível 4":
-        print(Fore.CYAN + f"{nivel_nome}: {situacao} - Nível Elevado." + Style.RESET_ALL)
-    elif nivel_nome == "Nível 5":
-        print(Fore.BLUE + f"{nivel_nome}: {situacao} - Alerta Máximo!" + Style.RESET_ALL)
+# 3. Criar uma função responsável por definir a cor da mensagem conforme o nível informado
+def obter_cor_nivel(nivel):
+    if nivel == "Nível 1":
+        return Fore.RED
+    elif nivel == "Nível 2":
+        return Fore.YELLOW
+    elif nivel == "Nível 3":
+        return Fore.GREEN
+    elif nivel == "Nível 4":
+        return Fore.CYAN
+    elif nivel == "Nível 5":
+        return Fore.BLUE
+    else:
+        return Style.RESET_ALL
 
-# Simulação do sistema exibindo no terminal a situação atual de cada nível
-print("=== SIMULAÇÃO DE NÍVEIS DO RESERVATÓRIO ===")
-for item in niveis_reservatorio:
-    nivel = item[0]
-    situacao = item[1]
-    verificar_nivel_agua(nivel, situacao)
-print("===========================================")
+# 4. Exibir no terminal a situação atual do reservatório com a cor correspondente, traços e tabela
+def simular_monitoramento():
+    # Traços e Cabeçalho da Tabela
+    print("-" * 65)
+    print(f"{'NÍVEL DO RESERVATÓRIO':<22} | {'SITUAÇÃO':<25} | {'COR'}")
+    print("-" * 65)
+    
+    # Percorrendo a lista para exibir os dados
+    for item in niveis_reservatorio:
+        nivel = item[0]
+        situacao = item[1]
+        nome_cor = item[2]
+        
+        # Obtém a cor correspondente através da função
+        cor_selecionada = obter_cor_nivel(nivel)
+        
+        # 4 & 5. Exibição colorida no terminal e restauração automática do estilo padrão
+        linha = f"{nivel:<22} | {situacao:<25} | {nome_cor}"
+        print(cor_selecionada + linha + Style.RESET_ALL)
+        
+    print("-" * 65)
+    print("Simulação concluída com sucesso. Estilo padrão restaurado.")
+
+# Execução da simulação
+if __name__ == "__main__":
+    simular_monitoramento()
