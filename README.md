@@ -1,45 +1,34 @@
-# Importação da biblioteca colorama para colorir as saídas no terminal
 from colorama import init, Fore, Style
 
-# Inicializa o colorama (autoreset=True ajuda a restaurar o estilo padrão automaticamente após cada print)
+# Inicializa o colorama e garante o reset do estilo
 init(autoreset=True)
 
-# 1. Utilizar uma lista para armazenar os níveis e suas respectivas situações
-# Cada item contém: (Nome do Nível, Descrição da Situação, Cor do Colorama)
+# Lista contendo os 5 níveis de água do reservatório
 niveis_reservatorio = [
-    ("Nível 1", "Muito baixo (crítico)", Fore.RED),
-    ("Nível 2", "Baixo", Fore.YELLOW),
-    ("Nível 3", "Médio", Fore.GREEN),
-    ("Nível 4", "Alto", Fore.CYAN),
-    ("Nível 5", "Muito alto (alerta)", Fore.BLUE)
+    ("Nível 1", "Muito baixo (crítico)"),
+    ("Nível 2", "Baixo"),
+    ("Nível 3", "Médio"),
+    ("Nível 4", "Alto"),
+    ("Nível 5", "Muito alto (alerta)")
 ]
 
-# 2. Criar uma função responsável por definir a cor e exibir a mensagem
-def exibir_alerta(nivel, situacao, cor):
-    """
-    Exibe no terminal a situação atual do reservatório com a cor correspondente
-    e garante o uso do estilo adequado.
-    """
-    print(f"{cor}[{nivel}] - Situação: {situacao}{Style.RESET_ALL}")
+# Função responsável por definir a cor da mensagem conforme o nível informado
+def verificar_nivel_agua(nivel_nome, situacao):
+    if nivel_nome == "Nível 1":
+        print(Fore.RED + f"{nivel_nome}: {situacao} - Risco Crítico!" + Style.RESET_ALL)
+    elif nivel_nome == "Nível 2":
+        print(Fore.YELLOW + f"{nivel_nome}: {situacao} - Atenção." + Style.RESET_ALL)
+    elif nivel_nome == "Nível 3":
+        print(Fore.GREEN + f"{nivel_nome}: {situacao} - Nível Estável." + Style.RESET_ALL)
+    elif nivel_nome == "Nível 4":
+        print(Fore.CYAN + f"{nivel_nome}: {situacao} - Nível Elevado." + Style.RESET_ALL)
+    elif nivel_nome == "Nível 5":
+        print(Fore.BLUE + f"{nivel_nome}: {situacao} - Alerta Máximo!" + Style.RESET_ALL)
 
-# 3. Simulação do sistema de monitoramento percorrendo a lista
-def simular_monitoramento():
-    print("=" * 50)
-    print("     SISTEMA DE MONITORAMENTO DE RESERVATÓRIO     ")
-    print("=" * 50)
-    
-    # Laço de repetição para percorrer os níveis cadastrados na lista
-    for item in niveis_reservatorio:
-        nivel = item[0]
-        situacao = item[1]
-        cor = item[2]
-        
-        # Chamada da função de exibição com cores
-        exibir_alerta(nivel, situacao, cor)
-        
-    print("=" * 50)
-    print("Simulação concluída. Estilo do terminal restaurado.")
-
-# Execução do programa
-if __name__ == "__main__":
-    simular_monitoramento()
+# Simulação do sistema exibindo no terminal a situação atual de cada nível
+print("=== SIMULAÇÃO DE NÍVEIS DO RESERVATÓRIO ===")
+for item in niveis_reservatorio:
+    nivel = item[0]
+    situacao = item[1]
+    verificar_nivel_agua(nivel, situacao)
+print("===========================================")
